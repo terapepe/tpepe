@@ -18,7 +18,7 @@ export default function RippleHero() {
           <clipPath id="hero-avatar"><circle cx="260" cy="260" r="135" /></clipPath>
         </defs>
         <image href="/avatar-hero.webp" x="125" y="125" width="270" height="270" clipPath="url(#hero-avatar)" />
-        <circle cx="260" cy="260" r="135" fill="none" stroke="#12261B" strokeWidth="5" />
+        <circle className="avatar-ring" cx="260" cy="260" r="135" fill="none" strokeWidth="4" />
       </svg>
       <span className="tag t1">Link shared</span>
       <span className="tag t2">Reward sent</span>
