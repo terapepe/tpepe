@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
 
@@ -31,6 +31,17 @@ function fetchMe(force = false): Promise<Me> {
   return mePromise;
 }
 
+// One sign-in state for the whole app, so signing in inside the wallet modal updates every component at once.
+type Shared = { signedIn: string | null; refCode: string | null };
+let shared: Shared = { signedIn: null, refCode: null };
+const listeners = new Set<() => void>();
+function setShared(patch: Partial<Shared> | ((s: Shared) => Partial<Shared>)) {
+  shared = { ...shared, ...(typeof patch === "function" ? patch(shared) : patch) };
+  listeners.forEach((l) => l());
+}
+const subscribe = (l: () => void) => (listeners.add(l), () => listeners.delete(l));
+const SERVER_SNAPSHOT: Shared = { signedIn: null, refCode: null };
+
 /**
  * One view over both wallet families.
  * EVM sign-in is verified on the server (SIWE with a one-time nonce) and kept in an httpOnly cookie;
@@ -43,19 +54,23 @@ export function useSession() {
   const sol = useWallet();
 
   const [mounted, setMounted] = useState(false);
-  const [signedIn, setSignedIn] = useState<string | null>(null);
+  const { signedIn, refCode } = useSyncExternalStore(subscribe, () => shared, () => SERVER_SNAPSHOT);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [refCode, setRefCode] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
-    try {
-      setSignedIn(localStorage.getItem(KEY));
-    } catch {}
+    if (!shared.signedIn) {
+      try {
+        const saved = localStorage.getItem(KEY);
+        if (saved) setShared({ signedIn: saved });
+      } catch {}
+    }
     fetchMe().then((me) => {
-      setRefCode(me.refCode ?? null);
-      if (me.address) setSignedIn((cur) => (cur && cur.toLowerCase() === me.address ? cur : me.address));
+      setShared((cur) => ({
+        refCode: me.refCode ?? null,
+        signedIn: me.address && !(cur.signedIn && cur.signedIn.toLowerCase() === me.address) ? me.address : cur.signedIn,
+      }));
     });
   }, []);
 
@@ -82,7 +97,7 @@ export function useSession() {
           body: JSON.stringify({ message: n.message, signature }),
         }).then((r) => r.json());
         if (!v.address) throw new Error(v.error || "Sign-in failed.");
-        setRefCode(v.refCode ?? null);
+        setShared({ refCode: v.refCode ?? null });
         fetchMe(true);
       } else {
         const message = buildMessage(address, family);
@@ -92,7 +107,7 @@ export function useSession() {
       try {
         localStorage.setItem(KEY, address);
       } catch {}
-      setSignedIn(address);
+      setShared({ signedIn: address });
     } catch (e) {
       setError(e instanceof Error ? e.message.split("\n")[0] : "Signature was rejected.");
     } finally {
@@ -104,8 +119,7 @@ export function useSession() {
     try {
       localStorage.removeItem(KEY);
     } catch {}
-    setSignedIn(null);
-    setRefCode(null);
+    setShared({ signedIn: null, refCode: null });
     await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
     fetchMe(true);
     if (evm.isConnected) evmDisconnect.disconnect();
