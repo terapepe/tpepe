@@ -7,6 +7,7 @@ export default function Page() {
   return (
     <FeaturePage
       f={{
+        scene: "quests",
         status: "In development",
         title: "Share a token, earn TPEPE",
         lede: "Pick a live campaign, share the project's link, and receive TPEPE as your reward.",

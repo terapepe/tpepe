@@ -7,6 +7,7 @@ export default function Page() {
   return (
     <FeaturePage
       f={{
+        scene: "launchpad",
         status: "In development",
         title: "Launch a token with the community behind it",
         lede: "Create a new token on terapepe.xyz and switch on share quests from day one, so the community can start spreading it and earning rewards the moment it goes live.",

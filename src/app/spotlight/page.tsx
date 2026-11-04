@@ -7,6 +7,7 @@ export default function Page() {
   return (
     <FeaturePage
       f={{
+        scene: "spotlight",
         status: "In development",
         title: "Weekly spotlight auction",
         lede: "Bid for the featured spot on TeraPepe. The weekly winner is promoted across the official TPEPE channels and gets 100 free shares from the user community.",

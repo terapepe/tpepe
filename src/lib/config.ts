@@ -21,3 +21,16 @@ export const NAV = [
 ] as const;
 
 export type IconName = (typeof NAV)[number]["icon"];
+
+// Character scenes shown on each page. To change one, drop a new image in
+// public/scenes/ and edit src / alt / caption / focus (CSS object-position) here.
+export const SCENES = {
+  campaigns: { src: "/scenes/command-center.webp", alt: "TeraPepe running a meme campaign command center", caption: "Campaign HQ", focus: "50% 40%" },
+  quests: { src: "/scenes/asteroid.webp", alt: "Astronaut TeraPepe holding a TPEPE coin in space", caption: "Earn TPEPE", focus: "50% 35%" },
+  spotlight: { src: "/scenes/stage.webp", alt: "TeraPepe presenting on stage to a packed meme crowd", caption: "This week's spotlight", focus: "50% 35%" },
+  launchpad: { src: "/scenes/robot-lab.webp", alt: "TeraPepe building a new project in the robot lab", caption: "Building the launchpad", focus: "50% 45%" },
+  token: { src: "/avatar-hero.webp", alt: "TeraPepe holding the TPEPE coin", caption: "$TPEPE", focus: "50% 50%" },
+  roadmap: { src: "/scenes/lab.webp", alt: "TeraPepe in the lab working on the next stage", caption: "In the lab", focus: "50% 40%" },
+} as const;
+
+export type SceneKey = keyof typeof SCENES;

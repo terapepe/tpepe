@@ -2,6 +2,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { SOCIAL } from "@/lib/config";
 import Icon from "@/components/Icon";
+import Scene from "@/components/Scene";
+import type { SceneKey } from "@/lib/config";
 
 export type Feature = {
   title: string;
@@ -11,15 +13,19 @@ export type Feature = {
   steps: { title: string; text: string }[];
   stepsTitle: string;
   note?: ReactNode;
+  scene?: SceneKey;
 };
 
 export default function FeaturePage({ f }: { f: Feature }) {
   return (
     <>
-      <section className="page-head">
-        <span className="status">{f.status}</span>
-        <h1>{f.title}</h1>
-        <p className="lede">{f.lede}</p>
+      <section className={`page-head ${f.scene ? "with-scene" : ""}`}>
+        <div>
+          <span className="status">{f.status}</span>
+          <h1>{f.title}</h1>
+          <p className="lede">{f.lede}</p>
+        </div>
+        {f.scene && <Scene name={f.scene} />}
       </section>
 
       <section className="block two">

@@ -7,6 +7,7 @@ export default function Page() {
   return (
     <FeaturePage
       f={{
+        scene: "campaigns",
         status: "In development",
         title: "Campaigns for new memecoins",
         lede: "A campaign pays the community, in TPEPE, to share your token. Hold TPEPE, fund a reward pool, and let people spread your links.",

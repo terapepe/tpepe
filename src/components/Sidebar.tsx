@@ -13,7 +13,7 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
       <div className={`scrim ${open ? "show" : ""}`} onClick={onClose} aria-hidden="true" />
       <aside className={`sidebar ${open ? "open" : ""}`} aria-label="Main navigation">
         <Link href="/" className="brand" onClick={onClose}>
-          <Logo />
+          <Logo size={56} />
           <span className="brand-text">
             TeraPepe
             <small>${TOKEN.ticker}</small>

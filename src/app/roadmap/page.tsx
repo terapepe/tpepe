@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Scene from "@/components/Scene";
 
 export const metadata: Metadata = { title: "Roadmap" };
 
@@ -28,10 +29,13 @@ const stages = [
 export default function Page() {
   return (
     <>
-      <section className="page-head">
-        <span className="status">Subject to change</span>
-        <h1>Roadmap</h1>
-        <p className="lede">We ship in stages, starting with the pieces everything else depends on. Dates are not promised; order is.</p>
+      <section className="page-head with-scene">
+        <div>
+          <span className="status">Subject to change</span>
+          <h1>Roadmap</h1>
+          <p className="lede">We ship in stages, starting with the pieces everything else depends on. Dates are not promised; order is.</p>
+        </div>
+        <Scene name="roadmap" />
       </section>
 
       <section className="block">

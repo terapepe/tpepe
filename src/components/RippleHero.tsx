@@ -1,28 +1,24 @@
 export default function RippleHero() {
   return (
-    <div className="ripple" aria-hidden="true">
+    <div className="ripple" role="img" aria-label="TeraPepe holding the TPEPE coin">
       <svg viewBox="0 0 520 520" className="ripple-svg">
         {[0, 1, 2, 3].map((i) => (
-          <circle key={i} className="ring wave" cx="260" cy="260" r="70" style={{ animationDelay: `${i * 1.6}s` }} />
+          <circle key={i} className="ring wave" cx="260" cy="260" r="130" style={{ animationDelay: `${i * 1.6}s` }} />
         ))}
-        <circle className="ring" cx="260" cy="260" r="120" opacity=".5" />
-        <circle className="ring" cx="260" cy="260" r="180" opacity=".35" />
-        <circle className="ring" cx="260" cy="260" r="240" opacity=".2" />
+        <circle className="ring" cx="260" cy="260" r="160" opacity=".5" />
+        <circle className="ring" cx="260" cy="260" r="205" opacity=".35" />
+        <circle className="ring" cx="260" cy="260" r="248" opacity=".2" />
         {/* sharers sitting on the rings */}
         {[
-          [260, 140],
-          [378, 300],
-          [150, 330],
-          [95, 175],
-          [430, 150],
-          [320, 460],
-          [200, 50],
-        ].map(([x, y], i) => (
-          <circle key={i} className="node" cx={x} cy={y} r={i % 3 === 0 ? 9 : 6} />
+          [160, -60], [205, 20], [248, 110], [160, 150], [205, 200], [248, 260], [205, 300],
+        ].map(([r, a], i) => (
+          <circle key={i} className="node" cx={260 + r * Math.cos((a * Math.PI) / 180)} cy={260 + r * Math.sin((a * Math.PI) / 180)} r={i % 3 === 0 ? 9 : 6} />
         ))}
-        <circle cx="260" cy="260" r="62" fill="#4C9A2A" />
-        <circle cx="260" cy="260" r="62" fill="none" stroke="#12261B" strokeWidth="3" />
-        <path d="M232 238h56M260 238V292" stroke="#F7FAF2" strokeWidth="14" strokeLinecap="round" />
+        <defs>
+          <clipPath id="hero-avatar"><circle cx="260" cy="260" r="135" /></clipPath>
+        </defs>
+        <image href="/avatar-hero.webp" x="125" y="125" width="270" height="270" clipPath="url(#hero-avatar)" />
+        <circle cx="260" cy="260" r="135" fill="none" stroke="#12261B" strokeWidth="5" />
       </svg>
       <span className="tag t1">Link shared</span>
       <span className="tag t2">Reward sent</span>

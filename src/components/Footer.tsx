@@ -29,7 +29,7 @@ export default function Footer() {
       <div className="footer-top">
         <div className="footer-brand">
           <div className="brand static">
-            <Logo size={40} variant="lab" />
+            <Logo size={72} variant="lab" />
             <span className="brand-text">
               TeraPepe
               <small>{TOKEN.domain}</small>

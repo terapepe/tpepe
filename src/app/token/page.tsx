@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CopyChip from "@/components/CopyChip";
+import Scene from "@/components/Scene";
 import { TOKEN } from "@/lib/config";
 
 export const metadata: Metadata = { title: "$TPEPE token" };
@@ -14,11 +15,14 @@ const uses = [
 export default function Page() {
   return (
     <>
-      <section className="page-head">
-        <span className="status">Token being built</span>
-        <h1>$TPEPE</h1>
-        <p className="lede">The base token of the TeraPepe ecosystem. It pays for reach and rewards the people who create it.</p>
-        <CopyChip value={TOKEN.ca} label="Contract" />
+      <section className="page-head with-scene">
+        <div>
+          <span className="status">Token being built</span>
+          <h1>$TPEPE</h1>
+          <p className="lede">The base token of the TeraPepe ecosystem. It pays for reach and rewards the people who create it.</p>
+          <CopyChip value={TOKEN.ca} label="Contract" />
+        </div>
+        <Scene name="token" round />
       </section>
 
       <section className="block two">
