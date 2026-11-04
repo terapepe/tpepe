@@ -99,11 +99,22 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ---------- address chip ---------- */
 .chip {
-  display: inline-flex; align-items: center; gap: 12px; max-width: 100%; margin-top: 8px; padding: 6px 6px 6px 14px;
+  display: inline-flex; align-items: center; gap: 10px; max-width: 100%; margin-top: 8px; padding: 6px 6px 6px 12px;
   background: var(--paper); border: 2px solid var(--bog); border-radius: 12px;
 }
 .chip-label { font-weight: 800; color: var(--pepe-deep); }
-.chip-value { font-family: var(--mono); font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.chip-value { font-family: var(--mono); font-size: 13px; letter-spacing: -0.03em; white-space: nowrap; min-width: 0; }
+.ca-short { display: none; white-space: nowrap; }
+.chip-wrap { container-type: inline-size; width: 100%; }
+/* not enough room for all 42 characters: show 0x1234…abcd */
+@container (max-width: 497px) {
+  .ca-full { display: none; }
+  .ca-short { display: inline; }
+}
+/* very narrow: icon-only copy button */
+@container (max-width: 290px) {
+  .chip-btn span { display: none; }
+}
 .chip-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border: 0; border-radius: 8px; background: var(--bog); color: var(--paper); font-weight: 600; font-size: 14px; }
 .chip-btn:hover { background: var(--bog-3); }
 
@@ -256,7 +267,8 @@ h3 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em; }
   .timeline { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr; }
   .net-pill { display: none; }
-  .chip-value { max-width: 38vw; }
+  .ca-full { display: none; }
+  .ca-short { display: inline; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
