@@ -32,6 +32,10 @@ const LIMITS: Record<keyof CampaignContent, number> = {
   discord: 200,
   buyUrl: 300,
 };
+const LABELS: Record<keyof CampaignContent, string> = {
+  name: "Token name", ticker: "Ticker", chain: "Chain", tokenAddress: "Token address", description: "About the token",
+  website: "Website", x: "X account", telegram: "Telegram", discord: "Discord", buyUrl: "Buy link",
+};
 const URL_FIELDS = ["website", "x", "telegram", "discord", "buyUrl"] as const;
 const ORDER = Object.keys(LIMITS) as (keyof CampaignContent)[];
 
@@ -50,17 +54,17 @@ export function validateContent(input: unknown): { ok: true; content: CampaignCo
   const out = {} as CampaignContent;
   for (const k of ORDER) {
     const v = typeof src[k] === "string" ? (src[k] as string).trim() : "";
-    if (v.length > LIMITS[k]) errors.push(`${k} is too long (max ${LIMITS[k]})`);
+    if (v.length > LIMITS[k]) errors.push(`${LABELS[k]} is too long (max ${LIMITS[k]} characters)`);
     out[k] = v;
   }
   for (const k of ["name", "ticker", "chain", "tokenAddress", "buyUrl"] as const) {
-    if (!out[k]) errors.push(`${k} is required`);
+    if (!out[k]) errors.push(`${LABELS[k]} is required`);
   }
   for (const k of URL_FIELDS) {
-    if (out[k] && !isHttpsUrl(out[k])) errors.push(`${k} must be an https:// link`);
+    if (out[k] && !isHttpsUrl(out[k])) errors.push(`${LABELS[k]} must be an https:// link`);
   }
   if (out.tokenAddress && !isAddress(out.tokenAddress) && !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(out.tokenAddress)) {
-    errors.push("tokenAddress is not a valid EVM or Solana address");
+    errors.push("Token address is not a valid EVM or Solana address");
   }
   return errors.length ? { ok: false, errors } : { ok: true, content: out };
 }

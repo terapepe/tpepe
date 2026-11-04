@@ -8,20 +8,22 @@ export default function Page() {
     <FeaturePage
       f={{
         scene: "campaigns",
-        status: "In development",
+        status: "Robinhood Chain",
         title: "Campaigns for new memecoins",
-        lede: "A campaign pays the community, in TPEPE, to share your token. Hold TPEPE, fund a reward pool, and let people spread your links.",
+        lede: "Deposit TPEPE and pay the community for every visit and every buy click they send to your token. No holding requirement, and anything left over comes back to you.",
+        cta: { href: "/campaigns/new", label: "Create a campaign" },
         stepsTitle: "How a campaign works",
         steps: [
-          { title: "Hold TPEPE", text: "Projects must hold TPEPE in their wallet before they can open a campaign." },
-          { title: "Set up the campaign", text: "Add your token, the links to share, and the TPEPE reward pool." },
-          { title: "The community shares", text: "Users complete share quests that point to your links." },
-          { title: "Rewards are paid in TPEPE", text: "Sharers earn from the pool as their shares are verified." },
+          { title: "Deposit at least 10,000 TPEPE", text: "The deposit sits in the campaign contract on Robinhood Chain, not with TeraPepe." },
+          { title: "Set the rewards and the length", text: "Choose the TPEPE paid per referral visit and per buy-link click, and run for 1, 2, 4, 6, 12 or 24 hours." },
+          { title: "Sharers spread their links", text: "Every signed-in wallet gets its own ref link and share buttons. Each visiting wallet counts once." },
+          { title: "Leftovers come back automatically", text: "Rewards stop when the deposit runs out. When time is up, any unearned TPEPE is returned to your wallet." },
         ],
         forWho: [
-          { who: "For projects", text: "Get steady, paid attention for a fresh launch instead of hoping a post catches on." },
-          { who: "For holders", text: "Every campaign needs TPEPE, which ties the token to real activity on the platform." },
+          { who: "For projects", text: "Pay only for real signed-in visitors and buy clicks, with your token info, links and socials shown in Share quests." },
+          { who: "Locked once live", text: "A campaign cannot be edited or cancelled after it is created. Check every detail before you confirm." },
         ],
+        callout: false,
       }}
     />
   );

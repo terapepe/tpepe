@@ -411,3 +411,30 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .ring, .node { filter: none; }
 }
+
+/* ---------- create campaign form ---------- */
+.cform { display: grid; gap: 28px; max-width: 760px; }
+.cform fieldset { border: 1px solid var(--edge); border-radius: var(--radius); padding: 20px 22px 22px; margin: 0; display: grid; gap: 16px; background: rgba(10, 16, 32, .6); }
+.cform legend { padding: 0 8px; font-weight: 800; color: var(--neon-white); }
+.cform label { display: grid; gap: 6px; font-weight: 600; font-size: 15px; color: var(--ink); }
+.cform label em { font-style: normal; font-weight: 500; color: var(--ink-dim); font-size: 13px; }
+.cform input, .cform textarea, .cform select {
+  font: inherit; font-weight: 500; color: var(--neon-white); background: var(--night); border: 1px solid var(--edge);
+  border-radius: 10px; padding: 11px 12px; width: 100%; min-width: 0;
+}
+.cform input:focus, .cform textarea:focus, .cform select:focus { outline: none; border-color: var(--neon); box-shadow: var(--glow); }
+.cform textarea { resize: vertical; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+.notice { border: 1px solid var(--neon); border-radius: var(--radius); padding: 18px 20px; background: rgba(10, 16, 32, .8); box-shadow: var(--glow-soft); display: grid; gap: 10px; justify-items: start; }
+.notice h2 { font-size: 1.3rem; }
+.danger-box { border-color: #ff6b8a; box-shadow: 0 0 0 1px #ff6b8a, 0 0 18px rgba(255, 107, 138, .35); }
+.danger-box b { color: #ffb3c2; }
+.warn-box { border-color: var(--sun); box-shadow: 0 0 0 1px var(--sun), 0 0 16px rgba(242, 213, 68, .25); }
+.ok-box { border-color: var(--neon-white); box-shadow: var(--glow-white); }
+.review { display: grid; gap: 22px; max-width: 760px; }
+.review .desc { white-space: pre-wrap; }
+.agree { display: flex; gap: 12px; align-items: flex-start; font-weight: 700; color: var(--neon-white); cursor: pointer; }
+.agree input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--neon); flex: none; }
+.err-list { display: grid; gap: 4px; color: #ff6b8a; font-weight: 600; font-size: 15px; padding-left: 18px; list-style: disc; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+@media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } }
