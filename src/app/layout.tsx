@@ -10,9 +10,12 @@ export const metadata: Metadata = {
   title: { default: "TeraPepe ($TPEPE) — make every new memecoin ripple", template: "%s | TeraPepe" },
   description:
     "TeraPepe is the share-to-earn platform for new memecoins. Projects hold TPEPE to run campaigns, the community earns TPEPE for sharing.",
-  openGraph: { title: "TeraPepe ($TPEPE)", description: "Share new memecoins. Earn TPEPE.", url: "https://terapepe.xyz", type: "website" },
-  twitter: { card: "summary_large_image", site: "@TeraPepeXyz" },
-  icons: { icon: "/icon.svg" },
+  openGraph: { title: "TeraPepe ($TPEPE)", description: "Share new memecoins. Earn TPEPE.", url: "https://terapepe.xyz", type: "website", images: [{ url: "/og-avatar.png", width: 512, height: 512 }] },
+  twitter: { card: "summary", site: "@TeraPepeXyz", images: ["/og-avatar.png"] },
+  icons: {
+    icon: [{ url: "/favicon.ico", sizes: "any" }, { url: "/icon-192.png", type: "image/png", sizes: "192x192" }],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export const viewport: Viewport = { themeColor: "#12261B" };
