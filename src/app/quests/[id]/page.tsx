@@ -6,6 +6,8 @@ type Props = { params: Promise<{ id: string }> };
 async function load(id: string) {
   // server-side read for link previews; the page itself loads data in the browser
   try {
+    const { backendReady } = await import("@/server/env");
+    if (!backendReady()) return undefined;
     const { db } = await import("@/server/db");
     const r = await db().from("campaigns").select("content").eq("id", Number(id)).maybeSingle();
     return r.data?.content as { name: string; ticker: string; description: string } | undefined;

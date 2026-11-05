@@ -9,7 +9,7 @@ export default function Page() {
     <>
       <section className="page-head with-scene">
         <div>
-          <span className="status">Live on Robinhood Chain</span>
+          <span className="status">Robinhood Chain</span>
           <h1>Share a token, earn TPEPE</h1>
           <p className="lede">
             Sign in with your wallet, pick a campaign and share your own link. You earn TPEPE for every signed-in

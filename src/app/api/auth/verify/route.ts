@@ -1,13 +1,16 @@
+import { verifyMessage } from "viem";
 import { parseSiweMessage } from "viem/siwe";
 import { publicClient } from "@/server/chain";
 import { db } from "@/server/db";
-import { fail, json } from "@/server/http";
+import { backendReady } from "@/server/env";
+import { fail, json, notReady } from "@/server/http";
 import { setSession } from "@/server/session";
 import { ensureUser } from "@/server/users";
 
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
+  if (!backendReady()) return notReady("Wallet sign-in");
   const { message, signature } = await req.json().catch(() => ({}));
   if (typeof message !== "string" || typeof signature !== "string" || !signature.startsWith("0x")) {
     return fail("Invalid request");
@@ -29,10 +32,12 @@ export async function POST(req: Request) {
   if (used.error) return fail("Could not verify", 500);
   if (!used.data?.length) return fail("Sign-in expired. Please try again.", 401);
 
-  // also supports smart-contract wallets (ERC-1271) on Robinhood Chain
-  const ok = await publicClient
-    .verifySiweMessage({ message, signature: signature as `0x${string}`, domain: host, nonce: parsed.nonce })
-    .catch(() => false);
+  // normal wallets are checked locally; smart-contract wallets (ERC-1271) need the chain
+  const ok =
+    (await verifyMessage({ address: parsed.address, message, signature: signature as `0x${string}` }).catch(() => false)) ||
+    (await publicClient
+      .verifySiweMessage({ message, signature: signature as `0x${string}`, domain: host, nonce: parsed.nonce })
+      .catch(() => false));
   if (!ok) return fail("Signature does not match", 401);
 
   const refCode = await ensureUser(parsed.address);

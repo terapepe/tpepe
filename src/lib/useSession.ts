@@ -83,13 +83,16 @@ export function useSession() {
     setBusy(true);
     setError(null);
     try {
-      if (family === "evm") {
-        const n = await fetch("/api/auth/nonce", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ address }),
-        }).then((r) => r.json());
-        if (!n.message) throw new Error(n.error || "Could not start sign-in.");
+      const n =
+        family === "evm"
+          ? await fetch("/api/auth/nonce", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ address }),
+            }).then((r) => r.json()).catch(() => ({}))
+          : null;
+      if (family === "evm" && !n?.notConfigured) {
+        if (!n?.message) throw new Error(n?.error || "Could not start sign-in.");
         const signature = await signMessageAsync({ message: n.message });
         const v = await fetch("/api/auth/verify", {
           method: "POST",
@@ -100,9 +103,13 @@ export function useSession() {
         setShared({ refCode: v.refCode ?? null });
         fetchMe(true);
       } else {
+        // server sign-in not switched on yet (or Solana): local signature only
         const message = buildMessage(address, family);
-        if (!sol.signMessage) throw new Error("This wallet cannot sign messages.");
-        await sol.signMessage(new TextEncoder().encode(message));
+        if (family === "evm") await signMessageAsync({ message });
+        else {
+          if (!sol.signMessage) throw new Error("This wallet cannot sign messages.");
+          await sol.signMessage(new TextEncoder().encode(message));
+        }
       }
       try {
         localStorage.setItem(KEY, address);

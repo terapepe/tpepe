@@ -3,14 +3,15 @@ import { campaignsAbi, contentHash, validateContent } from "@/lib/campaign";
 import { publicClient } from "@/server/chain";
 import { CAMPAIGN_COLUMNS, publicCampaign, type CampaignRow } from "@/server/campaigns";
 import { db } from "@/server/db";
-import { env } from "@/server/env";
-import { fail, json } from "@/server/http";
+import { backendReady, contractReady, env } from "@/server/env";
+import { fail, json, notReady } from "@/server/http";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /** Live campaigns first, then ones that ended in the last 3 days. */
 export async function GET() {
+  if (!backendReady()) return json({ campaigns: [] });
   const since = new Date(Date.now() - 3 * 24 * 3600 * 1000).toISOString();
   const r = await db()
     .from("campaigns")
@@ -30,6 +31,7 @@ export async function GET() {
  * Everything financial comes from the on-chain event; the content must match the hash locked on-chain.
  */
 export async function POST(req: Request) {
+  if (!contractReady()) return notReady("Creating campaigns");
   const body = await req.json().catch(() => ({}));
   const txHash = body?.txHash;
   if (typeof txHash !== "string" || !isHash(txHash)) return fail("Invalid transaction hash");

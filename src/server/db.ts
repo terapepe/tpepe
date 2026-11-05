@@ -4,10 +4,12 @@ import { env } from "./env";
 
 let client: SupabaseClient | null = null;
 
-/** Service-role client. Server only: RLS blocks every other role from these tables. */
+/** Server-only client: service-role key, or publishable key + private server key (see migration 0003). */
 export function db(): SupabaseClient {
-  client ??= createClient(env.supabaseUrl, env.supabaseServiceKey, {
+  const serverKey = env.serverDbKey;
+  client ??= createClient(env.supabaseUrl, env.supabaseKey, {
     auth: { persistSession: false, autoRefreshToken: false },
+    global: serverKey ? { headers: { "x-tp-server-key": serverKey } } : undefined,
   });
   return client;
 }

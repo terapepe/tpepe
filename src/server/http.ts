@@ -9,3 +9,6 @@ export function clientIp(req: Request): string {
   const h = req.headers;
   return (h.get("x-real-ip") || h.get("x-forwarded-for")?.split(",")[0] || "").trim() || "unknown";
 }
+
+export const notReady = (what = "This feature") =>
+  NextResponse.json({ error: `${what} is not switched on yet.`, notConfigured: true }, { status: 503 });

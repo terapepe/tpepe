@@ -2,11 +2,13 @@ import { getAddress, isAddress } from "viem";
 import { createSiweMessage, generateSiweNonce } from "viem/siwe";
 import { robinhood } from "@/lib/chains";
 import { db } from "@/server/db";
-import { fail, json } from "@/server/http";
+import { backendReady } from "@/server/env";
+import { fail, json, notReady } from "@/server/http";
 
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
+  if (!backendReady()) return notReady("Wallet sign-in");
   const { address } = await req.json().catch(() => ({}));
   if (typeof address !== "string" || !isAddress(address)) return fail("Invalid address");
 

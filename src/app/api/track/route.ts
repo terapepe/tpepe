@@ -1,6 +1,6 @@
 import { db } from "@/server/db";
-import { env } from "@/server/env";
-import { clientIp, fail, json } from "@/server/http";
+import { env, backendReady } from "@/server/env";
+import { clientIp, fail, json, notReady } from "@/server/http";
 import { deviceId, getSession, hashWithSalt } from "@/server/session";
 
 export const runtime = "nodejs";
@@ -10,6 +10,7 @@ export const runtime = "nodejs";
  * Body: { campaignId, kind: "visit" | "click", ref }
  */
 export async function POST(req: Request) {
+  if (!backendReady()) return notReady("Referral tracking");
   const visitor = await getSession();
   if (!visitor) return fail("Sign in with your wallet to count this visit", 401);
 

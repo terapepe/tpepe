@@ -2,8 +2,8 @@ import { timingSafeEqual } from "node:crypto";
 import { campaignsAbi } from "@/lib/campaign";
 import { adminWallet, publicClient } from "@/server/chain";
 import { db } from "@/server/db";
-import { env } from "@/server/env";
-import { fail, json } from "@/server/http";
+import { env, contractReady } from "@/server/env";
+import { fail, json, notReady } from "@/server/http";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -20,6 +20,7 @@ function authorized(req: Request) {
  * Safe to call repeatedly.
  */
 export async function GET(req: Request) {
+  if (!contractReady()) return notReady("Closing campaigns");
   if (!authorized(req)) return fail("Unauthorized", 401);
 
   const due = await db()

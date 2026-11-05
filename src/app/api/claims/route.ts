@@ -3,8 +3,8 @@ import { campaignsAbi, claimDomain, claimTypes } from "@/lib/campaign";
 import { robinhood } from "@/lib/chains";
 import { adminAccount, publicClient } from "@/server/chain";
 import { db } from "@/server/db";
-import { env } from "@/server/env";
-import { fail, json } from "@/server/http";
+import { env, contractReady } from "@/server/env";
+import { fail, json, notReady } from "@/server/http";
 import { getSession } from "@/server/session";
 
 export const runtime = "nodejs";
@@ -15,6 +15,7 @@ export const dynamic = "force-dynamic";
  * The wallet passes the vouchers to claimMany() on the contract.
  */
 export async function GET() {
+  if (!contractReady()) return notReady("Claiming");
   const address = await getSession();
   if (!address) return fail("Sign in first", 401);
 
