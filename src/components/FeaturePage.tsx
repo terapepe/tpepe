@@ -14,6 +14,8 @@ export type Feature = {
   stepsTitle: string;
   note?: ReactNode;
   scene?: SceneKey;
+  cta?: { href: string; label: string };
+  callout?: { title: string; text: ReactNode } | false;
 };
 
 export default function FeaturePage({ f }: { f: Feature }) {
@@ -24,6 +26,11 @@ export default function FeaturePage({ f }: { f: Feature }) {
           <span className="status">{f.status}</span>
           <h1>{f.title}</h1>
           <p className="lede">{f.lede}</p>
+          {f.cta && (
+            <div className="hero-actions">
+              <Link className="btn primary lg" href={f.cta.href}>{f.cta.label}</Link>
+            </div>
+          )}
         </div>
         {f.scene && <Scene name={f.scene} />}
       </section>
@@ -51,10 +58,11 @@ export default function FeaturePage({ f }: { f: Feature }) {
         </div>
       </section>
 
+      {f.callout !== false && (
       <section className="block callout">
         <div>
-          <h2>This part is still being built</h2>
-          <p>{f.note ?? "The tools for this page are not live yet. Follow @" + SOCIAL.x.handle + " to hear when they open."}</p>
+          <h2>{f.callout?.title ?? "This part is still being built"}</h2>
+          <p>{f.callout?.text ?? f.note ?? "The tools for this page are not live yet. Follow @" + SOCIAL.x.handle + " to hear when they open."}</p>
         </div>
         <div className="callout-actions">
           <a className="btn primary" href={SOCIAL.x.url} target="_blank" rel="noopener noreferrer">
@@ -65,6 +73,7 @@ export default function FeaturePage({ f }: { f: Feature }) {
           </Link>
         </div>
       </section>
+      )}
     </>
   );
 }
