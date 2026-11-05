@@ -1,8 +1,12 @@
 export const TOKEN = {
   name: "TeraPepe",
   ticker: "TPEPE",
-  // Set NEXT_PUBLIC_TPEPE_CA once the contract is live.
-  ca: process.env.NEXT_PUBLIC_TPEPE_CA || "0x...",
+  // ===== Contract addresses: edit ONLY here to change them across the whole site =====
+  // Leave "" to show "Coming soon".
+  ca: {
+    evm: "",    // EVM (Robinhood Chain), e.g. "0x1234..."
+    solana: "", // Solana mint, e.g. "So1ana..."
+  },
   domain: "terapepe.xyz",
 };
 

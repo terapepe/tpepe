@@ -3,12 +3,14 @@
 import { useState } from "react";
 import Icon from "./Icon";
 
-export default function CopyChip({ value, label = "Contract" }: { value: string; label?: string }) {
+export default function CopyChip({ value: raw, label = "Contract" }: { value: string; label?: string }) {
   const [done, setDone] = useState(false);
-  const live = value.startsWith("0x") && value.length > 6;
+  const live = raw.length > 20;
+  const value = live ? raw : "Coming soon";
   const short = value.length > 14 ? `${value.slice(0, 6)}…${value.slice(-4)}` : value;
 
   async function copy() {
+    if (!live) return;
     try {
       await navigator.clipboard.writeText(value);
       setDone(true);

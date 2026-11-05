@@ -56,7 +56,8 @@ export default function Home() {
               <Icon name="x" size={16} /> @{SOCIAL.x.handle}
             </a>
           </div>
-          <CopyChip value={TOKEN.ca} label={`$${TOKEN.ticker}`} />
+          <CopyChip value={TOKEN.ca.evm} label={`$${TOKEN.ticker} EVM`} />
+          <CopyChip value={TOKEN.ca.solana} label={`$${TOKEN.ticker} SOL`} />
         </div>
         <RippleHero />
       </section>

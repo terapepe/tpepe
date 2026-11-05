@@ -7,7 +7,7 @@ Wallet sign-in: EVM (Base, Robinhood Chain, Ethereum, BNB Chain) via wagmi/viem,
 
 ```bash
 npm install
-cp .env.example .env.local   # set NEXT_PUBLIC_TPEPE_CA when the contract is live
+cp .env.example .env.local   # token CAs (EVM + Solana) live in src/lib/config.ts
 npm run dev
 ```
 
