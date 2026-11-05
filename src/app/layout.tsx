@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     "TeraPepe is the share-to-earn platform for new memecoins. Projects open campaigns with TPEPE, the community earns TPEPE for sharing.",
   openGraph: { title: "TeraPepe ($TPEPE)", description: "Share new memecoins. Earn TPEPE.", url: "https://terapepe.xyz", type: "website", images: [{ url: "/og-avatar.png", width: 512, height: 512 }] },
-  twitter: { card: "summary", site: "@TeraPepeXyz", images: ["/og-avatar.png"] },
+  twitter: { card: "summary", site: "@TeraPepe_", images: ["/og-avatar.png"] },
   icons: {
     icon: [{ url: "/favicon.ico", sizes: "any" }, { url: "/icon-192.png", type: "image/png", sizes: "192x192" }],
     apple: "/apple-touch-icon.png",

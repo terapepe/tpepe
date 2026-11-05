@@ -11,7 +11,7 @@ export const TOKEN = {
 };
 
 export const SOCIAL = {
-  x: { handle: "TeraPepeXyz", url: "https://x.com/TeraPepeXyz" },
+  x: { handle: "TeraPepe_", url: "https://x.com/TeraPepe_" },
 };
 
 export const NAV = [
