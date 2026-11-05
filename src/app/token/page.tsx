@@ -6,8 +6,8 @@ import { TOKEN } from "@/lib/config";
 export const metadata: Metadata = { title: "$TPEPE token" };
 
 const uses = [
-  { title: "Campaign access", text: "Projects hold TPEPE to create share campaigns for new memecoins." },
-  { title: "Share rewards", text: "Users who complete share quests are paid in TPEPE." },
+  { title: "Campaign deposits", text: "Projects open share campaigns by depositing TPEPE (at least 10,000). No holding required." },
+  { title: "Share rewards", text: "Sharers are paid in TPEPE for every signed-in visitor and buy click their link brings." },
   { title: "Auction currency", text: "Weekly spotlight bids are placed in TPEPE." },
   { title: "Launch fuel", text: "Tokens launched on terapepe.xyz can attach TPEPE-rewarded share quests from the start." },
 ];

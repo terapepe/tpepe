@@ -9,13 +9,13 @@ const utilities = [
     href: "/campaigns",
     icon: "megaphone" as const,
     title: "Fund share campaigns",
-    text: "New memecoin projects hold TPEPE to open a campaign and pay the community to spread their links.",
+    text: "New memecoin projects open a campaign with a TPEPE deposit and pay the community for every visit and buy click they send.",
   },
   {
     href: "/quests",
     icon: "ripple" as const,
     title: "Earn by sharing",
-    text: "Complete share quests for any live project and receive TPEPE as your reward.",
+    text: "Share your own link for any live campaign and earn TPEPE for every signed-in visitor and buy click.",
   },
   {
     href: "/spotlight",
@@ -45,7 +45,7 @@ export default function Home() {
         <div className="hero-copy">
           <h1>Make every new memecoin ripple.</h1>
           <p className="lede">
-            TeraPepe pays people to share new tokens. Projects hold <b>${TOKEN.ticker}</b> to run campaigns, and the
+            TeraPepe pays people to share new tokens. Projects open campaigns with <b>${TOKEN.ticker}</b>, no holding required, and the
             community earns <b>${TOKEN.ticker}</b> for spreading the word.
           </p>
           <div className="hero-actions">
@@ -80,10 +80,10 @@ export default function Home() {
       <section className="block two">
         <h2>How a campaign runs</h2>
         <ol className="steps">
-          <li><h3>A project holds TPEPE</h3><p>Holding the token is what unlocks campaign creation.</p></li>
-          <li><h3>It funds a reward pool</h3><p>The pool pays sharers in TPEPE.</p></li>
-          <li><h3>The community shares</h3><p>Users complete quests that point at the project’s links.</p></li>
-          <li><h3>Sharers get paid</h3><p>Rewards arrive in the wallet they signed in with.</p></li>
+          <li><h3>A project opens a campaign with TPEPE</h3><p>It deposits at least 10,000 TPEPE. No holding requirement.</p></li>
+          <li><h3>It sets the rewards</h3><p>TPEPE per referral visit and per buy-link click, for 1 to 24 hours.</p></li>
+          <li><h3>The community shares</h3><p>Each signed-in wallet gets its own ref link and share buttons.</p></li>
+          <li><h3>Sharers get paid</h3><p>Rewards stop when the deposit runs out; unused TPEPE goes back to the project.</p></li>
         </ol>
       </section>
 

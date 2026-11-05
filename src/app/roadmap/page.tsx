@@ -12,7 +12,7 @@ const stages = [
   {
     when: "Next",
     title: "Campaigns and share quests",
-    items: ["Projects hold TPEPE to open campaigns", "Users complete share quests", "TPEPE rewards paid to sharers"],
+    items: ["Projects open campaigns with a TPEPE deposit", "Every wallet gets its own ref link", "TPEPE paid per visit and buy click"],
   },
   {
     when: "Then",
