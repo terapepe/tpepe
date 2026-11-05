@@ -4,7 +4,7 @@ export const TOKEN = {
   // ===== Contract addresses: edit ONLY here to change them across the whole site =====
   // Leave "" to show "Coming soon".
   ca: {
-    evm: "0xfBAdc6A6CEe47E11Ff53B5FD6c8Cb045a67Ea6eA",    // EVM (Robinhood Chain), e.g. "0x1234..."
+    evm: "",    // EVM (Robinhood Chain), e.g. "0x1234..."
     solana: "DNhiHWURY9L6qjvuCo9BaR5uTofSAEPmLMbWRLABz6ea", // Solana mint, e.g. "So1ana..."
   },
   domain: "terapepe.xyz",
