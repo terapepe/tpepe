@@ -36,7 +36,8 @@ export default function Footer() {
             </span>
           </div>
           <p>Where new memecoins get shared, and the people who share them get paid.</p>
-          <CopyChip value={TOKEN.ca} label={`$${TOKEN.ticker}`} />
+          <CopyChip value={TOKEN.ca.evm} label={`$${TOKEN.ticker} EVM`} />
+          <CopyChip value={TOKEN.ca.solana} label={`$${TOKEN.ticker} SOL`} />
         </div>
 
         {cols.map((c) => (

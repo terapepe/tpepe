@@ -17,7 +17,7 @@ import { robinhood } from "@/lib/chains";
 import { TOKEN } from "@/lib/config";
 import { useOpenConnect } from "@/lib/connectModal";
 
-const TPEPE = TOKEN.ca as `0x${string}`;
+const TPEPE = TOKEN.ca.evm as `0x${string}`;
 const READY = isAddress(TPEPE) && isAddress(CAMPAIGNS_CONTRACT);
 const PENDING_KEY = "tpepe.pendingCampaign";
 
