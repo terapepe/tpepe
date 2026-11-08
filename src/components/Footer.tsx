@@ -3,6 +3,7 @@ import { SOCIAL, TOKEN } from "@/lib/config";
 import CopyChip from "./CopyChip";
 import Icon from "./Icon";
 import Logo from "./Logo";
+import { solanaEnabled } from "@/lib/chains";
 
 const cols = [
   {
@@ -37,7 +38,7 @@ export default function Footer() {
           </div>
           <p>Where new memecoins get shared, and the people who share them get paid.</p>
           <CopyChip value={TOKEN.ca.evm} label={`$${TOKEN.ticker} EVM`} />
-          <CopyChip value={TOKEN.ca.solana} label={`$${TOKEN.ticker} SOL`} />
+          {solanaEnabled && <CopyChip value={TOKEN.ca.solana} label={`$${TOKEN.ticker} SOL`} />}
         </div>
 
         {cols.map((c) => (

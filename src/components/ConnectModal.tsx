@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useChainId, useConnect, useSwitchChain } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
-import { evmChains } from "@/lib/chains";
+import { activeEvmChains, EVM_LABEL, solanaEnabled } from "@/lib/chains";
 import { short, useSession } from "@/lib/useSession";
 import Icon from "./Icon";
 
@@ -43,11 +43,11 @@ export default function ConnectModal({ open, onClose }: { open: boolean; onClose
               <code>{short(s.address)}</code>
             </p>
 
-            {s.family === "evm" && (
+            {s.family === "evm" && activeEvmChains.length > 1 && (
               <div>
                 <p className="muted small">Network</p>
                 <div className="chain-grid">
-                  {evmChains.map((c) => (
+                  {activeEvmChains.map((c) => (
                     <button
                       key={c.id}
                       className={`chain-btn ${chainId === c.id ? "on" : ""}`}
@@ -76,18 +76,18 @@ export default function ConnectModal({ open, onClose }: { open: boolean; onClose
           </div>
         ) : (
           <div className="modal-body">
-            <div className="tabs" role="tablist">
+            {solanaEnabled && <div className="tabs" role="tablist">
               <button role="tab" aria-selected={tab === "evm"} className={tab === "evm" ? "on" : ""} onClick={() => setTab("evm")}>
                 EVM
               </button>
               <button role="tab" aria-selected={tab === "solana"} className={tab === "solana" ? "on" : ""} onClick={() => setTab("solana")}>
                 Solana
               </button>
-            </div>
+            </div>}
 
-            {tab === "evm" ? (
+            {tab === "evm" || !solanaEnabled ? (
               <>
-                <p className="muted small">Base, Robinhood Chain, Ethereum and BNB Chain.</p>
+                <p className="muted small">{EVM_LABEL}.</p>
                 <ul className="wallet-list">
                   {evm.connectors.map((c) => (
                     <li key={c.uid}>

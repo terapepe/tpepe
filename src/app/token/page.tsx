@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import CopyChip from "@/components/CopyChip";
 import Scene from "@/components/Scene";
 import { TOKEN } from "@/lib/config";
+import { solanaEnabled } from "@/lib/chains";
 
 export const metadata: Metadata = { title: "$TPEPE token" };
 
@@ -21,7 +22,7 @@ export default function Page() {
           <h1>$TPEPE</h1>
           <p className="lede">The base token of the TeraPepe ecosystem. It pays for reach and rewards the people who create it.</p>
           <CopyChip value={TOKEN.ca.evm} label="EVM" />
-          <CopyChip value={TOKEN.ca.solana} label="Solana" />
+          {solanaEnabled && <CopyChip value={TOKEN.ca.solana} label="Solana" />}
         </div>
         <Scene name="token" round />
       </section>
@@ -44,7 +45,7 @@ export default function Page() {
           <div><dt>Name</dt><dd>{TOKEN.name}</dd></div>
           <div><dt>Ticker</dt><dd>{TOKEN.ticker}</dd></div>
           <div><dt>Contract (EVM)</dt><dd className="mono">{TOKEN.ca.evm || "Coming soon"}</dd></div>
-          <div><dt>Contract (Solana)</dt><dd className="mono">{TOKEN.ca.solana || "Coming soon"}</dd></div>
+          {solanaEnabled && <div><dt>Contract (Solana)</dt><dd className="mono">{TOKEN.ca.solana || "Coming soon"}</dd></div>}
           <div><dt>Supply and distribution</dt><dd>To be announced</dd></div>
           <div><dt>Where to buy</dt><dd>Posted on X when the token is live</dd></div>
         </dl>

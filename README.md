@@ -3,6 +3,9 @@
 Share-to-earn platform for new memecoins. Next.js (App Router) + TypeScript.
 Wallet sign-in: EVM (Base, Robinhood Chain, Ethereum, BNB Chain) via wagmi/viem, and Solana via wallet-adapter.
 
+## Network mode
+`SITE_MODE` in `src/lib/config.ts`: `"multi"` = Base, Robinhood Chain, Ethereum, BNB Chain + Solana · `"single"` = Robinhood Chain only (wallet modal, CA chips, FAQ adapt).
+
 ## Run
 
 ```bash

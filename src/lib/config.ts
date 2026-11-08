@@ -1,3 +1,8 @@
+// ===== Site mode =====
+// "multi"  = Base, Robinhood Chain, Ethereum, BNB Chain + Solana (wallets, CAs, texts)
+// "single" = Robinhood Chain only
+export const SITE_MODE = "multi" as "single" | "multi";
+
 export const TOKEN = {
   name: "TeraPepe",
   ticker: "TPEPE",

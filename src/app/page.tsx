@@ -3,6 +3,7 @@ import CopyChip from "@/components/CopyChip";
 import Icon from "@/components/Icon";
 import RippleHero from "@/components/RippleHero";
 import { SOCIAL, TOKEN } from "@/lib/config";
+import { EVM_LABEL, solanaEnabled } from "@/lib/chains";
 
 const utilities = [
   {
@@ -33,7 +34,7 @@ const utilities = [
 
 const faq = [
   { q: "What is TeraPepe?", a: "A platform where new memecoin projects pay for shares in TPEPE and the community earns TPEPE by sharing them." },
-  { q: "Which wallets can I use?", a: "Any EVM wallet on Base, Robinhood Chain, Ethereum or BNB Chain, plus Solana wallets such as Phantom and Solflare." },
+  { q: "Which wallets can I use?", a: solanaEnabled ? `Any EVM wallet on ${EVM_LABEL.replace(" and ", " or ")}, plus Solana wallets such as Phantom and Solflare.` : `Any EVM wallet (MetaMask, Rabby, Coinbase Wallet…) on ${EVM_LABEL}.` },
   { q: "Is anything live yet?", a: "The site and wallet sign-in are. Campaigns, share quests, auctions and the launchpad are being built in stages." },
   { q: "Does signing in cost anything?", a: "No. It is a free signature. It does not send a transaction or move funds." },
 ];
@@ -57,7 +58,7 @@ export default function Home() {
             </a>
           </div>
           <CopyChip value={TOKEN.ca.evm} label={`$${TOKEN.ticker} EVM`} />
-          <CopyChip value={TOKEN.ca.solana} label={`$${TOKEN.ticker} SOL`} />
+          {solanaEnabled && <CopyChip value={TOKEN.ca.solana} label={`$${TOKEN.ticker} SOL`} />}
         </div>
         <RippleHero />
       </section>
