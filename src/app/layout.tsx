@@ -4,6 +4,7 @@ import "@fontsource-variable/jetbrains-mono";
 import "./globals.css";
 import Providers from "@/lib/Providers";
 import Shell from "@/components/Shell";
+import { IS_SINGLE, PRIMARY } from "@/lib/chains";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://terapepe.xyz"),
@@ -23,7 +24,8 @@ export const viewport: Viewport = { themeColor: "#04060d" };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
+      {/* single mode: accent follows the network color */}
+      <body style={IS_SINGLE ? ({ ["--chain" as string]: PRIMARY.color } as React.CSSProperties) : undefined}>
         <Providers>
           <Shell>{children}</Shell>
         </Providers>

@@ -1,7 +1,19 @@
 // ===== Site mode =====
-// "multi"  = Base, Robinhood Chain, Ethereum, BNB Chain + Solana (wallets, CAs, texts)
-// "single" = Robinhood Chain only
+// "single" = only SINGLE_CHAIN (wallets, CA chips, texts and accent follow it)
+// "multi"  = always Solana, Robinhood, Base, BSC, ordered by MULTI_ORDER (add "ethereum" to include it)
 export const SITE_MODE = "multi" as "single" | "multi";
+export const SINGLE_CHAIN: ChainKey = "robinhood";
+export const MULTI_ORDER: ChainKey[] = ["solana", "robinhood", "base", "bsc"];
+
+export type ChainKey = "robinhood" | "solana" | "base" | "bsc" | "ethereum";
+// Per-network look & CA. ca: "" → TOKEN.ca.evm (EVM chains) / TOKEN.ca.solana
+export const NETWORKS: Record<ChainKey, { name: string; short: string; color: string; tagline: string; ca: string }> = {
+  robinhood: { name: "Robinhood Chain", short: "RH", color: "#CCFF00", tagline: "Fast, low-fee L2 built for trading", ca: "" },
+  solana: { name: "Solana", short: "SOL", color: "#9945FF", tagline: "Lightning-fast and meme-native", ca: "" },
+  base: { name: "Base", short: "BASE", color: "#0052FF", tagline: "Onchain with the Base community", ca: "" },
+  bsc: { name: "BNB Chain", short: "BSC", color: "#F0B90B", tagline: "Degen energy on BNB Chain", ca: "" },
+  ethereum: { name: "Ethereum", short: "ETH", color: "#8A92FF", tagline: "The original smart-contract chain", ca: "" },
+};
 
 export const TOKEN = {
   name: "TeraPepe",
@@ -9,7 +21,7 @@ export const TOKEN = {
   // ===== Contract addresses: edit ONLY here to change them across the whole site =====
   // Leave "" to show "Coming soon".
   ca: {
-    evm: "0x5954876a212a4b31f5813b73453e40258892a761",    // EVM (Robinhood Chain), e.g. "0x1234..."
+    evm: "0x5954876a212a4b31f5813b73453e40258892a761",    // shared by all EVM chains (Robinhood, Base, BSC, Ethereum)
     solana: "DNhiHWURY9L6qjvuCo9BaR5uTofSAEPmLMbWRLABz6ea", // Solana mint, e.g. "So1ana..."
   },
   domain: "terapepe.xyz",

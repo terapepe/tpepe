@@ -9,6 +9,7 @@
   --lily: #bfd8a7;
   --lip: #d9453d;
   --sun: #f2d544;
+  --chain: var(--pepe); /* network color in single mode */
   --muted: #52665a;
   --line: #c9d8bd;
   --radius: 14px;
@@ -101,7 +102,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .chip {
   display: inline-flex; align-items: center; gap: 10px; max-width: 100%; margin-top: 8px; padding: 6px 6px 6px 12px;
   background: var(--paper); border: 2px solid var(--bog); border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--net, var(--chain));
 }
+.chip-label::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-right: 7px; border-radius: 50%; background: var(--net, var(--chain)); border: 1.5px solid var(--bog); vertical-align: 1px; }
+.chain-tag { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 999px; border: 2px solid var(--bog); background: var(--paper); font-weight: 700; font-size: 14px; margin-bottom: 14px; }
+.chain-tag i { width: 10px; height: 10px; border-radius: 50%; background: var(--chain); border: 1.5px solid var(--bog); }
 .chip-label { font-weight: 800; color: var(--pepe-deep); }
 .chip-value { font-family: var(--mono); font-size: 13px; letter-spacing: -0.03em; white-space: nowrap; min-width: 0; }
 .ca-short { display: none; white-space: nowrap; }
@@ -490,3 +495,9 @@ body {
 /* wallet modal must stay above its own overlay (the mobile .scrim rule gives the overlay a z-index) */
 .modal-wrap .modal-scrim { z-index: 0; }
 .modal-wrap .modal { z-index: 1; }
+
+/* ---------- per-network accents (single mode / CA chips) ---------- */
+.chain-tag { background: transparent; border: 1px solid var(--chain); color: var(--neon-white); box-shadow: 0 0 14px color-mix(in srgb, var(--chain) 45%, transparent); }
+.chain-tag i { border: 0; box-shadow: 0 0 8px var(--chain); }
+.chip[style] { border-color: var(--net); box-shadow: 0 0 16px color-mix(in srgb, var(--net) 40%, transparent); }
+.chip-label::before { border: 0; box-shadow: 0 0 6px var(--net, var(--chain)); }

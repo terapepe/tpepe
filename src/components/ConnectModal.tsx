@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useChainId, useConnect, useSwitchChain } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
-import { activeEvmChains, EVM_LABEL, solanaEnabled } from "@/lib/chains";
+import { activeEvmChains, EVM_LABEL, evmEnabled, solanaEnabled } from "@/lib/chains";
 import { short, useSession } from "@/lib/useSession";
 import Icon from "./Icon";
 
@@ -76,7 +76,7 @@ export default function ConnectModal({ open, onClose }: { open: boolean; onClose
           </div>
         ) : (
           <div className="modal-body">
-            {solanaEnabled && <div className="tabs" role="tablist">
+            {solanaEnabled && evmEnabled && <div className="tabs" role="tablist">
               <button role="tab" aria-selected={tab === "evm"} className={tab === "evm" ? "on" : ""} onClick={() => setTab("evm")}>
                 EVM
               </button>
@@ -85,7 +85,7 @@ export default function ConnectModal({ open, onClose }: { open: boolean; onClose
               </button>
             </div>}
 
-            {tab === "evm" || !solanaEnabled ? (
+            {evmEnabled && (tab === "evm" || !solanaEnabled) ? (
               <>
                 <p className="muted small">{EVM_LABEL}.</p>
                 <ul className="wallet-list">

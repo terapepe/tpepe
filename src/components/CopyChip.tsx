@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Icon from "./Icon";
 
-export default function CopyChip({ value: raw, label = "Contract" }: { value: string; label?: string }) {
+export default function CopyChip({ value: raw, label = "Contract", color }: { value: string; label?: string; color?: string }) {
   const [done, setDone] = useState(false);
   const live = raw.length > 20;
   const value = live ? raw : "Coming soon";
@@ -20,7 +20,7 @@ export default function CopyChip({ value: raw, label = "Contract" }: { value: st
 
   return (
     <div className="chip-wrap">
-      <div className="chip">
+      <div className="chip" style={color ? ({ ["--net" as string]: color } as React.CSSProperties) : undefined}>
         <span className="chip-label">{label}</span>
         <code className="chip-value" title={value}>
           <span className="ca-full">{value}</span>
@@ -28,7 +28,7 @@ export default function CopyChip({ value: raw, label = "Contract" }: { value: st
         </code>
         <button type="button" className="chip-btn" onClick={copy} aria-label={done ? "Copied" : "Copy contract address"}>
           <Icon name={done ? "check" : "copy"} size={16} />
-          <span>{done ? "Copied" : live ? "Copy" : "Soon"}</span>
+          <span>{done ? "Copied" : live ? "Copy CA" : "Soon"}</span>
         </button>
       </div>
     </div>
