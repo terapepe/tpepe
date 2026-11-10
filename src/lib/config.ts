@@ -21,8 +21,8 @@ export const TOKEN = {
   // ===== Contract addresses: edit ONLY here to change them across the whole site =====
   // Leave "" to show "Coming soon".
   ca: {
-    evm: "0x5954876a212a4b31f5813b73453e40258892a761",    // shared by all EVM chains (Robinhood, Base, BSC, Ethereum)
-    solana: "DNhiHWURY9L6qjvuCo9BaR5uTofSAEPmLMbWRLABz6ea", // Solana mint, e.g. "So1ana..."
+    evm: "",    // shared by all EVM chains (Robinhood, Base, BSC, Ethereum)
+    solana: "", // Solana mint, e.g. "So1ana..."
   },
   domain: "terapepe.xyz",
 };
