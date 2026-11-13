@@ -1,5 +1,5 @@
 export const SITE_MODE = "single" as "single" | "multi";
-export const SINGLE_CHAIN: ChainKey = "robinhood";
+export const SINGLE_CHAIN: ChainKey = "base";
 export const MULTI_ORDER: ChainKey[] = ["solana", "robinhood", "base", "bsc"];
 
 export type ChainKey = "robinhood" | "solana" | "base" | "bsc" | "ethereum";
@@ -15,7 +15,7 @@ export const TOKEN = {
   name: "TeraPepe",
   ticker: "TPEPE",
   ca: {
-    evm: "",
+    evm: "0x6e98862d03151bd3c5ae47def76380336051ea01",
     solana: "",
   },
   domain: "terapepe.xyz",
