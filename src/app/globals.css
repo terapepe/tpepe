@@ -108,14 +108,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .chain-tag { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: 999px; border: 2px solid var(--bog); background: var(--paper); font-weight: 700; font-size: 14px; margin-bottom: 14px; }
 .chain-tag i { width: 10px; height: 10px; border-radius: 50%; background: var(--chain); border: 1.5px solid var(--bog); }
 .chip-label { font-weight: 800; color: var(--pepe-deep); }
-.chip-value { font-family: var(--mono); font-size: 13px; letter-spacing: -0.03em; white-space: nowrap; min-width: 0; }
-.ca-short { display: none; white-space: nowrap; }
+.chip-value { font-family: var(--mono); font-size: 13px; letter-spacing: -0.03em; min-width: 0; overflow-wrap: anywhere; word-break: break-all; user-select: all; }
 .chip-wrap { container-type: inline-size; width: 100%; }
-/* not enough room for all 42 characters: show 0x1234…abcd */
-@container (max-width: 497px) {
-  .ca-full { display: none; }
-  .ca-short { display: inline; }
-}
+.chip-btn.ghost { background: transparent; color: inherit; border: 1px solid currentColor; text-decoration: none; }
 /* very narrow: icon-only copy button */
 @container (max-width: 290px) {
   .chip-btn span { display: none; }
@@ -272,8 +267,7 @@ h3 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em; }
   .timeline { grid-template-columns: 1fr; }
   .footer-top { grid-template-columns: 1fr; }
   .net-pill { display: none; }
-  .ca-full { display: none; }
-  .ca-short { display: inline; }
+  .chip { flex-wrap: wrap; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

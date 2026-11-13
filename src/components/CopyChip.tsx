@@ -3,11 +3,10 @@
 import { useState } from "react";
 import Icon from "./Icon";
 
-export default function CopyChip({ value: raw, label = "Contract", color }: { value: string; label?: string; color?: string }) {
+export default function CopyChip({ value: raw, label = "Contract", color, href }: { value: string; label?: string; color?: string; href?: string }) {
   const [done, setDone] = useState(false);
   const live = raw.length > 20;
   const value = live ? raw : "Coming soon";
-  const short = value.length > 14 ? `${value.slice(0, 6)}…${value.slice(-4)}` : value;
 
   async function copy() {
     if (!live) return;
@@ -22,14 +21,17 @@ export default function CopyChip({ value: raw, label = "Contract", color }: { va
     <div className="chip-wrap">
       <div className="chip" style={color ? ({ ["--net" as string]: color } as React.CSSProperties) : undefined}>
         <span className="chip-label">{label}</span>
-        <code className="chip-value" title={value}>
-          <span className="ca-full">{value}</span>
-          <span className="ca-short">{short}</span>
-        </code>
+        <code className="chip-value" title={value}>{value}</code>
         <button type="button" className="chip-btn" onClick={copy} aria-label={done ? "Copied" : "Copy contract address"}>
           <Icon name={done ? "check" : "copy"} size={16} />
           <span>{done ? "Copied" : live ? "Copy CA" : "Soon"}</span>
         </button>
+        {live && href && (
+          <a className="chip-btn ghost" href={href} target="_blank" rel="noopener noreferrer" aria-label="View on explorer">
+            <Icon name="arrow" size={16} />
+            <span>Explorer</span>
+          </a>
+        )}
       </div>
     </div>
   );

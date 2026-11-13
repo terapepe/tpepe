@@ -3,7 +3,7 @@ import CAChips from "@/components/CAChips";
 import Icon from "@/components/Icon";
 import RippleHero from "@/components/RippleHero";
 import { SOCIAL, TOKEN } from "@/lib/config";
-import { ALL_LABEL, EVM_LABEL, evmEnabled, IS_SINGLE, PRIMARY, solanaEnabled } from "@/lib/chains";
+import { ALL_LABEL, EVM_LABEL, evmEnabled, IS_SINGLE, PRIMARY, solanaEnabled, TOKEN_LIVE, BUY_NET, buyOf } from "@/lib/chains";
 
 const utilities = [
   {
@@ -36,7 +36,7 @@ const faq = [
   { q: "What is TeraPepe?", a: "A platform where new memecoin projects pay for shares in TPEPE and the community earns TPEPE by sharing them." },
   { q: "Which wallets can I use?", a: !evmEnabled ? "Solana wallets such as Phantom and Solflare." : solanaEnabled ? `Any EVM wallet on ${EVM_LABEL.replace(" and ", " or ")}, plus Solana wallets such as Phantom and Solflare.` : `Any EVM wallet (MetaMask, Rabby, Coinbase Wallet…) on ${EVM_LABEL}.` },
   { q: `Which ${IS_SINGLE ? "chain is" : "chains are"} $TPEPE on?`, a: IS_SINGLE ? `${PRIMARY.name}. ${PRIMARY.tagline}.` : `${ALL_LABEL()}. EVM chains share one contract address; Solana has its own.` },
-  { q: "Is anything live yet?", a: "The site and wallet sign-in are. Campaigns, share quests, auctions and the launchpad are being built in stages." },
+  { q: "Is anything live yet?", a: TOKEN_LIVE ? `Yes. $TPEPE is live on ${ALL_LABEL()}, and the site and wallet sign-in work. Campaigns, share quests, auctions and the launchpad are being built in stages.` : "The site and wallet sign-in are. Campaigns, share quests, auctions and the launchpad are being built in stages." },
   { q: "Does signing in cost anything?", a: "No. It is a free signature. It does not send a transaction or move funds." },
 ];
 
@@ -52,7 +52,12 @@ export default function Home() {
             community earns <b>${TOKEN.ticker}</b> for spreading the word.
           </p>
           <div className="hero-actions">
-            <Link className="btn primary lg" href="/campaigns">
+            {BUY_NET && (
+              <a className="btn primary lg" href={buyOf(BUY_NET)} target="_blank" rel="noopener noreferrer">
+                Buy ${TOKEN.ticker}
+              </a>
+            )}
+            <Link className={`btn ${BUY_NET ? "ghost" : "primary"} lg`} href="/campaigns">
               See how it works
             </Link>
             <a className="btn ghost lg" href={SOCIAL.x.url} target="_blank" rel="noopener noreferrer">

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import CAChips from "@/components/CAChips";
 import Scene from "@/components/Scene";
 import { TOKEN } from "@/lib/config";
-import { ALL_LABEL, CA_GROUPS } from "@/lib/chains";
+import { ALL_LABEL, ACTIVE, CA_GROUPS, TOKEN_LIVE, buyOf, chartOf, explorerOf } from "@/lib/chains";
 
 export const metadata: Metadata = { title: "$TPEPE token" };
 
@@ -18,10 +18,20 @@ export default function Page() {
     <>
       <section className="page-head with-scene">
         <div>
-          <span className="status">Token being built</span>
+          <span className="status">{TOKEN_LIVE ? `Live on ${ALL_LABEL()}` : "Token being built"}</span>
           <h1>$TPEPE</h1>
           <p className="lede">The base token of the TeraPepe ecosystem. It pays for reach and rewards the people who create it.</p>
           <CAChips prefix="" />
+          {TOKEN_LIVE && (
+            <div className="hero-actions">
+              {ACTIVE.filter((n) => buyOf(n)).map((n) => (
+                <a key={`buy-${n.key}`} className="btn primary" href={buyOf(n)} target="_blank" rel="noopener noreferrer">Buy on {n.name}</a>
+              ))}
+              {ACTIVE.filter((n) => chartOf(n)).map((n) => (
+                <a key={`chart-${n.key}`} className="btn ghost" href={chartOf(n)} target="_blank" rel="noopener noreferrer">Chart{ACTIVE.length > 1 ? ` (${n.short})` : ""}</a>
+              ))}
+            </div>
+          )}
         </div>
         <Scene name="token" round />
       </section>
@@ -45,10 +55,18 @@ export default function Page() {
           <div><dt>Ticker</dt><dd>{TOKEN.ticker}</dd></div>
           <div><dt>Networks</dt><dd>{ALL_LABEL()}</dd></div>
           {CA_GROUPS.map((g) => (
-            <div key={g.id}><dt>Contract ({g.nets.map((n) => n.name).join(", ")})</dt><dd className="mono">{g.ca || "Coming soon"}</dd></div>
+            <div key={g.id}><dt>Contract ({g.nets.map((n) => n.name).join(", ")})</dt><dd className="mono" style={{ overflowWrap: "anywhere" }}>
+              {g.ca ? <a href={explorerOf(g.nets[0])} target="_blank" rel="noopener noreferrer">{g.ca}</a> : "Coming soon"}
+            </dd></div>
           ))}
           <div><dt>Supply and distribution</dt><dd>To be announced</dd></div>
-          <div><dt>Where to buy</dt><dd>Posted on X when the token is live</dd></div>
+          <div><dt>Where to buy</dt><dd>
+            {TOKEN_LIVE
+              ? ACTIVE.filter((n) => buyOf(n)).map((n, i) => (
+                  <span key={n.key}>{i > 0 && " · "}<a href={buyOf(n)} target="_blank" rel="noopener noreferrer">{new URL(buyOf(n)).hostname.replace("app.", "")} ({n.name})</a></span>
+                ))
+              : "Posted on X when the token is live"}
+          </dd></div>
         </dl>
       </section>
 

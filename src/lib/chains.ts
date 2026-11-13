@@ -54,3 +54,23 @@ export const CA_GROUPS: CaGroup[] = ACTIVE.reduce<CaGroup[]>((acc, n) => {
   if (g) { g.nets.push(n); g.tag = g.nets.map((x) => x.short).join("/"); } else acc.push({ id, ca, nets: [n], tag: n.short });
   return acc;
 }, []);
+
+/** Explorer page of the token on a network ("" when no CA yet). */
+export const explorerOf = (n: Net) => (caOf(n) ? n.explorer + caOf(n) : "");
+
+const BUY: Partial<Record<ChainKey, (ca: string) => string>> = {
+  base: (ca) => `https://app.uniswap.org/swap?chain=base&outputCurrency=${ca}`,
+  ethereum: (ca) => `https://app.uniswap.org/swap?chain=mainnet&outputCurrency=${ca}`,
+  bsc: (ca) => `https://pancakeswap.finance/swap?chain=bsc&outputCurrency=${ca}`,
+  solana: (ca) => `https://jup.ag/swap/SOL-${ca}`,
+};
+const CHART_SLUG: Partial<Record<ChainKey, string>> = { base: "base", ethereum: "ethereum", bsc: "bsc", solana: "solana", robinhood: "robinhood" };
+
+/** Swap page for the token ("" when unknown or no CA). */
+export const buyOf = (n: Net) => { const ca = caOf(n), f = BUY[n.key]; return ca && f ? f(ca) : ""; };
+/** DexScreener chart ("" when no CA). */
+export const chartOf = (n: Net) => { const ca = caOf(n), slug = CHART_SLUG[n.key]; return ca && slug ? `https://dexscreener.com/${slug}/${ca}` : ""; };
+/** At least one network has a CA. */
+export const TOKEN_LIVE = ACTIVE.some((n) => !!caOf(n));
+/** First network with a swap link (hero "Buy" button, works in single and multi). */
+export const BUY_NET = ACTIVE.find((n) => !!buyOf(n));

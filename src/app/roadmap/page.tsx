@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Scene from "@/components/Scene";
+import { ALL_LABEL, TOKEN_LIVE } from "@/lib/chains";
 
 export const metadata: Metadata = { title: "Roadmap" };
 
@@ -7,7 +8,7 @@ const stages = [
   {
     when: "Now",
     title: "Foundation",
-    items: ["Website and brand at terapepe.xyz", "Wallet sign-in for EVM and Solana", "TPEPE token being built"],
+    items: ["Website and brand at terapepe.xyz", "Wallet sign-in for EVM and Solana", TOKEN_LIVE ? `TPEPE token live on ${ALL_LABEL()}` : "TPEPE token being built"],
   },
   {
     when: "Next",
