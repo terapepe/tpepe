@@ -22,7 +22,7 @@ export const TOKEN = {
 };
 
 export const SOCIAL = {
-  x: { handle: "TeraPepe_", url: "https://x.com/pepecoineth" },
+  x: { handle: "", url: "https://x.com/" },
 };
 
 export const NAV = [
