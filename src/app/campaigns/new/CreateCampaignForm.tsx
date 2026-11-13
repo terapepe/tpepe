@@ -18,7 +18,9 @@ import { TOKEN } from "@/lib/config";
 import { useOpenConnect } from "@/lib/connectModal";
 
 const TPEPE = TOKEN.ca.evm as `0x${string}`;
-const READY = isAddress(TPEPE) && isAddress(CAMPAIGNS_CONTRACT);
+const TOKEN_OK = isAddress(TPEPE);
+/** Token + campaign contract set: create works. Otherwise the form is shown as a preview. */
+const READY = TOKEN_OK && isAddress(CAMPAIGNS_CONTRACT);
 const PENDING_KEY = "tpepe.pendingCampaign";
 
 const EMPTY: CampaignContent = {
@@ -78,12 +80,12 @@ export default function CreateCampaignForm() {
   const [pending, setPending] = useState<{ txHash: string; content: CampaignContent } | null>(null);
 
   const decimalsQ = useReadContract({
-    address: TPEPE, abi: erc20Abi, functionName: "decimals", chainId: campaignChain.id, query: { enabled: READY },
+    address: TPEPE, abi: erc20Abi, functionName: "decimals", chainId: campaignChain.id, query: { enabled: TOKEN_OK },
   });
   const decimals = decimalsQ.data ?? 18;
   const balanceQ = useReadContract({
     address: TPEPE, abi: erc20Abi, functionName: "balanceOf", args: address ? [address] : undefined,
-    chainId: campaignChain.id, query: { enabled: READY && !!address },
+    chainId: campaignChain.id, query: { enabled: TOKEN_OK && !!address },
   });
   const allowanceQ = useReadContract({
     address: TPEPE, abi: erc20Abi, functionName: "allowance", args: address ? [address, CAMPAIGNS_CONTRACT] : undefined,
@@ -141,7 +143,7 @@ export default function CreateCampaignForm() {
   }
 
   async function submit() {
-    if (!client || !address || amounts.d === null || !amounts.v || !amounts.c) return;
+    if (!READY || !client || !address || amounts.d === null || !amounts.v || !amounts.c) return;
     const v = validateContent(content);
     if (!v.ok) return;
     setTxError(null);
@@ -197,18 +199,16 @@ export default function CreateCampaignForm() {
 
   // ---------------------------------------------------------------- render
 
-  if (!READY) {
-    return (
-      <div className="notice">
-        <h2>{isAddress(TPEPE) ? "Campaign creation opens soon" : "Campaign creation opens when TPEPE is live"}</h2>
-        <p>
-          {isAddress(TPEPE)
-            ? `TPEPE is live. The campaign contract on ${CAMPAIGN_NET.name} is being deployed. Follow the official X account for the opening.`
-            : `The TPEPE token and the campaign contract on ${CAMPAIGN_NET.name} are not deployed yet. Follow the official X account for the launch.`}
-        </p>
-      </div>
-    );
-  }
+  const previewBanner = !READY && (
+    <div className="notice warn-box" style={{ marginBottom: 24 }}>
+      <h2>Preview: campaign creation opens soon</h2>
+      <p>
+        {TOKEN_OK
+          ? `TPEPE is live. The campaign contract on ${CAMPAIGN_NET.name} is being deployed, so you can fill in and review a campaign now, but it cannot be created yet.`
+          : `The TPEPE token and the campaign contract on ${CAMPAIGN_NET.name} are not deployed yet. You can try the form, but nothing can be created yet.`}
+      </p>
+    </div>
+  );
 
   if (phase === "done") {
     return (
@@ -228,6 +228,7 @@ export default function CreateCampaignForm() {
 
   return (
     <>
+      {previewBanner}
       {pending && phase !== "registering" && (
         <div className="notice warn-box">
           <h2>A campaign is waiting to be listed</h2>
@@ -268,8 +269,8 @@ export default function CreateCampaignForm() {
           {txError && phase !== "register_failed" && <p className="err">{txError}</p>}
           <div className="callout-actions">
             <button className="btn ghost" onClick={() => setPhase("form")} disabled={busy}>Back and edit</button>
-            <button className="btn primary" onClick={submit} disabled={!agree || busy || phase === "register_failed"}>
-              {phase === "approving" ? "Approving TPEPE…" : phase === "creating" ? "Creating campaign…" : phase === "registering" ? "Listing campaign…" : "Approve and create"}
+            <button className="btn primary" onClick={submit} disabled={!READY || !agree || busy || phase === "register_failed"}>
+              {!READY ? "Opens when the contract is live" : phase === "approving" ? "Approving TPEPE…" : phase === "creating" ? "Creating campaign…" : phase === "registering" ? "Listing campaign…" : "Approve and create"}
             </button>
           </div>
           <p className="muted small">Your wallet asks for up to two confirmations: allowing the contract to take the deposit, then creating the campaign. Both need a little ETH on {CAMPAIGN_NET.name} for gas.</p>
@@ -343,7 +344,7 @@ export default function CreateCampaignForm() {
             <ul className="err-list" role="alert">{errors.map((e) => <li key={e}>{e}</li>)}</ul>
           )}
           <div className="callout-actions">
-            <button className="btn primary lg" type="submit" disabled={!isConnected}>Review campaign</button>
+            <button className="btn primary lg" type="submit" disabled={READY && !isConnected}>Review campaign</button>
           </div>
         </form>
       )}
