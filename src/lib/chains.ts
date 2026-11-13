@@ -1,6 +1,6 @@
 import { defineChain } from "viem";
 import { base, bsc, mainnet } from "wagmi/chains";
-import { MULTI_ORDER, NETWORKS, SINGLE_CHAIN, SITE_MODE, TOKEN, type ChainKey } from "./config";
+import { CAMPAIGN_CHAIN, MULTI_ORDER, NETWORKS, SINGLE_CHAIN, SITE_MODE, TOKEN, type ChainKey } from "./config";
 
 export const robinhood = defineChain({
   id: 4663,
@@ -13,7 +13,7 @@ export const robinhood = defineChain({
   },
 });
 
-/** All EVM chains wagmi knows (campaign contracts live on Robinhood Chain). */
+/** All EVM chains wagmi knows (campaign contract lives on CAMPAIGN_CHAIN). */
 export const evmChains = [base, robinhood, mainnet, bsc] as const;
 const EVM_BY_KEY = { robinhood, base, bsc, ethereum: mainnet } as const;
 const EXPLORER: Record<ChainKey, string> = {
@@ -26,6 +26,10 @@ const EXPLORER: Record<ChainKey, string> = {
 
 export type Net = (typeof NETWORKS)[ChainKey] & { key: ChainKey; vm: "evm" | "svm"; explorer: string };
 const net = (key: ChainKey): Net => ({ key, ...NETWORKS[key], vm: key === "solana" ? "svm" : "evm", explorer: EXPLORER[key] });
+
+/** Chain of the campaign contract (from config CAMPAIGN_CHAIN). */
+export const campaignChain = EVM_BY_KEY[CAMPAIGN_CHAIN];
+export const CAMPAIGN_NET = net(CAMPAIGN_CHAIN);
 
 const REQUIRED: ChainKey[] = ["solana", "robinhood", "base", "bsc"]; // multi always shows these 4
 export const IS_SINGLE = SITE_MODE !== "multi";

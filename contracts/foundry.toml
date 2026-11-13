@@ -13,3 +13,4 @@ remappings = [
 
 [rpc_endpoints]
 robinhood = "${ROBINHOOD_RPC}"
+base = "https://mainnet.base.org"

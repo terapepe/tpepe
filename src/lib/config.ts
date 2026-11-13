@@ -1,5 +1,7 @@
 export const SITE_MODE = "single" as "single" | "multi";
 export const SINGLE_CHAIN: ChainKey = "base";
+/** EVM chain where TPEPE and the campaign contract live (campaigns, share quests, claims). */
+export const CAMPAIGN_CHAIN: Exclude<ChainKey, "solana"> = "base";
 export const MULTI_ORDER: ChainKey[] = ["solana", "robinhood", "base", "bsc"];
 
 export type ChainKey = "robinhood" | "solana" | "base" | "bsc" | "ethereum";

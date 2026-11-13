@@ -1,6 +1,6 @@
 import { getAddress } from "viem";
 import { campaignsAbi, claimDomain, claimTypes } from "@/lib/campaign";
-import { robinhood } from "@/lib/chains";
+import { campaignChain } from "@/lib/chains";
 import { adminAccount, publicClient } from "@/server/chain";
 import { db } from "@/server/db";
 import { env, contractReady } from "@/server/env";
@@ -23,7 +23,7 @@ export async function GET() {
   if (r.error) return fail("Could not load earnings", 500);
 
   const account = adminAccount();
-  const domain = { ...claimDomain(robinhood.id), verifyingContract: env.contract };
+  const domain = { ...claimDomain(campaignChain.id), verifyingContract: env.contract };
   const user = getAddress(address);
 
   const items = await Promise.all(

@@ -13,7 +13,7 @@ import {
   validateContent,
   type CampaignContent,
 } from "@/lib/campaign";
-import { robinhood } from "@/lib/chains";
+import { CAMPAIGN_NET, campaignChain } from "@/lib/chains";
 import { TOKEN } from "@/lib/config";
 import { useOpenConnect } from "@/lib/connectModal";
 
@@ -22,7 +22,7 @@ const READY = isAddress(TPEPE) && isAddress(CAMPAIGNS_CONTRACT);
 const PENDING_KEY = "tpepe.pendingCampaign";
 
 const EMPTY: CampaignContent = {
-  name: "", ticker: "", chain: "Robinhood Chain", tokenAddress: "", description: "",
+  name: "", ticker: "", chain: CAMPAIGN_NET.name, tokenAddress: "", description: "",
   website: "", x: "", telegram: "", discord: "", buyUrl: "",
 };
 
@@ -62,7 +62,7 @@ export default function CreateCampaignForm() {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { switchChainAsync } = useSwitchChain();
-  const client = usePublicClient({ chainId: robinhood.id });
+  const client = usePublicClient({ chainId: campaignChain.id });
   const { writeContractAsync } = useWriteContract();
 
   const [content, setContent] = useState<CampaignContent>(EMPTY);
@@ -78,16 +78,16 @@ export default function CreateCampaignForm() {
   const [pending, setPending] = useState<{ txHash: string; content: CampaignContent } | null>(null);
 
   const decimalsQ = useReadContract({
-    address: TPEPE, abi: erc20Abi, functionName: "decimals", chainId: robinhood.id, query: { enabled: READY },
+    address: TPEPE, abi: erc20Abi, functionName: "decimals", chainId: campaignChain.id, query: { enabled: READY },
   });
   const decimals = decimalsQ.data ?? 18;
   const balanceQ = useReadContract({
     address: TPEPE, abi: erc20Abi, functionName: "balanceOf", args: address ? [address] : undefined,
-    chainId: robinhood.id, query: { enabled: READY && !!address },
+    chainId: campaignChain.id, query: { enabled: READY && !!address },
   });
   const allowanceQ = useReadContract({
     address: TPEPE, abi: erc20Abi, functionName: "allowance", args: address ? [address, CAMPAIGNS_CONTRACT] : undefined,
-    chainId: robinhood.id, query: { enabled: READY && !!address },
+    chainId: campaignChain.id, query: { enabled: READY && !!address },
   });
 
   // a campaign that was created on-chain but not yet registered on the site
@@ -146,13 +146,13 @@ export default function CreateCampaignForm() {
     if (!v.ok) return;
     setTxError(null);
     try {
-      if (chainId !== robinhood.id) await switchChainAsync({ chainId: robinhood.id });
+      if (chainId !== campaignChain.id) await switchChainAsync({ chainId: campaignChain.id });
 
       const { data: allowance } = await allowanceQ.refetch();
       if ((allowance ?? 0n) < amounts.d) {
         setPhase("approving");
         const approveTx = await writeContractAsync({
-          address: TPEPE, abi: erc20Abi, functionName: "approve", args: [CAMPAIGNS_CONTRACT, amounts.d], chainId: robinhood.id,
+          address: TPEPE, abi: erc20Abi, functionName: "approve", args: [CAMPAIGNS_CONTRACT, amounts.d], chainId: campaignChain.id,
         });
         const ar = await client.waitForTransactionReceipt({ hash: approveTx });
         if (ar.status !== "success") throw new Error("The approval failed.");
@@ -164,7 +164,7 @@ export default function CreateCampaignForm() {
         abi: campaignsAbi,
         functionName: "createCampaign",
         args: [amounts.d, amounts.v, amounts.c, BigInt(hours), contentHash(v.content)],
-        chainId: robinhood.id,
+        chainId: campaignChain.id,
       });
       const p = { txHash: createTx, content: v.content };
       try { localStorage.setItem(PENDING_KEY, JSON.stringify(p)); } catch {}
@@ -200,8 +200,12 @@ export default function CreateCampaignForm() {
   if (!READY) {
     return (
       <div className="notice">
-        <h2>Campaign creation opens when TPEPE is live</h2>
-        <p>The TPEPE token and the campaign contract on Robinhood Chain are not deployed yet. Follow the official X account for the launch.</p>
+        <h2>{isAddress(TPEPE) ? "Campaign creation opens soon" : "Campaign creation opens when TPEPE is live"}</h2>
+        <p>
+          {isAddress(TPEPE)
+            ? `TPEPE is live. The campaign contract on ${CAMPAIGN_NET.name} is being deployed. Follow the official X account for the opening.`
+            : `The TPEPE token and the campaign contract on ${CAMPAIGN_NET.name} are not deployed yet. Follow the official X account for the launch.`}
+        </p>
       </div>
     );
   }
@@ -268,7 +272,7 @@ export default function CreateCampaignForm() {
               {phase === "approving" ? "Approving TPEPE…" : phase === "creating" ? "Creating campaign…" : phase === "registering" ? "Listing campaign…" : "Approve and create"}
             </button>
           </div>
-          <p className="muted small">Your wallet asks for up to two confirmations: allowing the contract to take the deposit, then creating the campaign. Both need a little ETH on Robinhood Chain for gas.</p>
+          <p className="muted small">Your wallet asks for up to two confirmations: allowing the contract to take the deposit, then creating the campaign. Both need a little ETH on {CAMPAIGN_NET.name} for gas.</p>
         </section>
       ) : (
         <form className="cform" onSubmit={toReview} noValidate>

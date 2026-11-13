@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CAMPAIGN_NET } from "@/lib/chains";
 import CreateCampaignForm from "./CreateCampaignForm";
 
 export const metadata: Metadata = { title: "Create a campaign" };
@@ -7,7 +8,7 @@ export default function Page() {
   return (
     <>
       <section className="page-head">
-        <span className="status">Robinhood Chain</span>
+        <span className="status">{CAMPAIGN_NET.name}</span>
         <h1>Create a campaign</h1>
         <p className="lede">
           Deposit TPEPE and set what each referral visit and each buy-link click pays. Sharers get their own link, and

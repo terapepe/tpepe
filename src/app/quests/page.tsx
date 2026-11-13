@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CAMPAIGN_NET } from "@/lib/chains";
 import Scene from "@/components/Scene";
 import QuestsBoard from "./QuestsBoard";
 
@@ -9,7 +10,7 @@ export default function Page() {
     <>
       <section className="page-head with-scene">
         <div>
-          <span className="status">Robinhood Chain</span>
+          <span className="status">{CAMPAIGN_NET.name}</span>
           <h1>Share a token, earn TPEPE</h1>
           <p className="lede">
             Sign in with your wallet, pick a campaign and share your own link. You earn TPEPE for every signed-in

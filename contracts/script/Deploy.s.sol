@@ -6,7 +6,7 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {TeraPepeCampaigns} from "../src/TeraPepeCampaigns.sol";
 
 /// TPEPE_CA=0x... SIGNER=0x83e0... OWNER=0x<your main wallet> \
-/// forge script script/Deploy.s.sol --rpc-url robinhood --broadcast --interactives 1
+/// forge script script/Deploy.s.sol --rpc-url base   (or robinhood; must match CAMPAIGN_CHAIN in src/lib/config.ts) --broadcast --interactives 1
 contract Deploy is Script {
     function run() external {
         address tpepe = vm.envAddress("TPEPE_CA");

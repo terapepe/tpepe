@@ -8,7 +8,7 @@ Wallet sign-in: EVM via wagmi/viem, and Solana via wallet-adapter.
 - `SITE_MODE = "multi"` → always Solana, Robinhood, Base, BSC (order = `MULTI_ORDER`; add `"ethereum"` to include it).
 - `TOKEN.ca.evm` is shared by all EVM chains, `TOKEN.ca.solana` for Solana. `NETWORKS.<key>` sets `name`, `short`, `color`, `tagline`, `ca` (empty → shared CA).
 - Networks with the same CA share one "Copy CA" chip (e.g. `$TPEPE RH/BASE/BSC`).
-- Campaign/claim contracts stay on Robinhood Chain regardless of the mode.
+- Campaign/claim contract lives on `CAMPAIGN_CHAIN` (same chain as the TPEPE token), regardless of the mode.
 
 ## Run
 

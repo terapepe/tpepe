@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useChainId, usePublicClient, useSwitchChain, useWriteContract } from "wagmi";
 import { CAMPAIGNS_CONTRACT, campaignsAbi } from "@/lib/campaign";
-import { robinhood } from "@/lib/chains";
+import { CAMPAIGN_NET, campaignChain } from "@/lib/chains";
 import { useOpenConnect } from "@/lib/connectModal";
 import { useSession } from "@/lib/useSession";
 import { BuyButton, Countdown, PoolBar, ShareBox, StatusBadge, TokenLinks, refLink, tp, type PublicCampaign } from "@/components/quests";
@@ -17,7 +17,7 @@ export function SignInPrompt({ why }: { why: string }) {
   const openConnect = useOpenConnect();
   if (!s.mounted) return null;
   if (s.family === "solana") {
-    return <p className="muted small">Rewards are paid on Robinhood Chain, so they need an EVM wallet such as MetaMask or Rabby.</p>;
+    return <p className="muted small">Rewards are paid on {CAMPAIGN_NET.name}, so they need an EVM wallet such as MetaMask or Rabby.</p>;
   }
   if (!s.address) {
     return (
@@ -42,7 +42,7 @@ function RewardsPanel({ campaigns }: { campaigns: PublicCampaign[] }) {
   const s = useSession();
   const chainId = useChainId();
   const { switchChainAsync } = useSwitchChain();
-  const client = usePublicClient({ chainId: robinhood.id });
+  const client = usePublicClient({ chainId: campaignChain.id });
   const { writeContractAsync } = useWriteContract();
   const [claims, setClaims] = useState<Claim[] | null>(null);
   const [busy, setBusy] = useState(false);
@@ -70,13 +70,13 @@ function RewardsPanel({ campaigns }: { campaigns: PublicCampaign[] }) {
     setBusy(true);
     setMsg(null);
     try {
-      if (chainId !== robinhood.id) await switchChainAsync({ chainId: robinhood.id });
+      if (chainId !== campaignChain.id) await switchChainAsync({ chainId: campaignChain.id });
       const tx = await writeContractAsync({
         address: CAMPAIGNS_CONTRACT,
         abi: campaignsAbi,
         functionName: "claimMany",
         args: [open.map((c) => BigInt(c.campaignId)), open.map((c) => BigInt(c.earned)), open.map((c) => c.signature)],
-        chainId: robinhood.id,
+        chainId: campaignChain.id,
       });
       const r = await client.waitForTransactionReceipt({ hash: tx });
       if (r.status !== "success") throw new Error("The claim failed on-chain.");
@@ -116,7 +116,7 @@ function RewardsPanel({ campaigns }: { campaigns: PublicCampaign[] }) {
           })}
         </ul>
       )}
-      <p className="muted small">Claiming sends one transaction on Robinhood Chain and needs a little ETH for gas.</p>
+      <p className="muted small">Claiming sends one transaction on {CAMPAIGN_NET.name} and needs a little ETH for gas.</p>
     </section>
   );
 }

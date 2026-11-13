@@ -1,6 +1,6 @@
 import { getAddress, isAddress } from "viem";
 import { createSiweMessage, generateSiweNonce } from "viem/siwe";
-import { robinhood } from "@/lib/chains";
+import { campaignChain } from "@/lib/chains";
 import { db } from "@/server/db";
 import { backendReady } from "@/server/env";
 import { fail, json, notReady } from "@/server/http";
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     statement: "Sign in to TeraPepe. This is free and does not send a transaction.",
     uri: url.origin,
     version: "1",
-    chainId: robinhood.id,
+    chainId: campaignChain.id,
     nonce,
     issuedAt: now,
     expirationTime: expires,
