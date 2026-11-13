@@ -1,12 +1,8 @@
-// ===== Site mode =====
-// "single" = only SINGLE_CHAIN (wallets, CA chips, texts and accent follow it)
-// "multi"  = always Solana, Robinhood, Base, BSC, ordered by MULTI_ORDER (add "ethereum" to include it)
 export const SITE_MODE = "single" as "single" | "multi";
 export const SINGLE_CHAIN: ChainKey = "robinhood";
 export const MULTI_ORDER: ChainKey[] = ["solana", "robinhood", "base", "bsc"];
 
 export type ChainKey = "robinhood" | "solana" | "base" | "bsc" | "ethereum";
-// Per-network look & CA. ca: "" → TOKEN.ca.evm (EVM chains) / TOKEN.ca.solana
 export const NETWORKS: Record<ChainKey, { name: string; short: string; color: string; tagline: string; ca: string }> = {
   robinhood: { name: "Robinhood Chain", short: "RH", color: "#CCFF00", tagline: "Fast, low-fee L2 built for trading", ca: "" },
   solana: { name: "Solana", short: "SOL", color: "#9945FF", tagline: "Lightning-fast and meme-native", ca: "" },
@@ -18,10 +14,8 @@ export const NETWORKS: Record<ChainKey, { name: string; short: string; color: st
 export const TOKEN = {
   name: "TeraPepe",
   ticker: "TPEPE",
-  // ===== Contract addresses: edit ONLY here to change them across the whole site =====
-  // Leave "" to show "Coming soon".
   ca: {
-    evm: "",
+    evm: "0xc45031fff6f9d9e6901178c01ef5f9ac4221f6bf",
     solana: "",
   },
   domain: "terapepe.xyz",
