@@ -1,7 +1,7 @@
 // ===== Site mode =====
 // "single" = only SINGLE_CHAIN (wallets, CA chips, texts and accent follow it)
 // "multi"  = always Solana, Robinhood, Base, BSC, ordered by MULTI_ORDER (add "ethereum" to include it)
-export const SITE_MODE = "multi" as "single" | "multi";
+export const SITE_MODE = "single" as "single" | "multi";
 export const SINGLE_CHAIN: ChainKey = "robinhood";
 export const MULTI_ORDER: ChainKey[] = ["solana", "robinhood", "base", "bsc"];
 
@@ -21,8 +21,8 @@ export const TOKEN = {
   // ===== Contract addresses: edit ONLY here to change them across the whole site =====
   // Leave "" to show "Coming soon".
   ca: {
-    evm: "0xfeA9B4F6cF4904D6d94C9F727a437f5c7d9f26eA",
-    solana: "2UiKTHf4YkCYRMhgiUxXBN1yqgZXAhHCZpJi9tiYs6ea",
+    evm: "",
+    solana: "",
   },
   domain: "terapepe.xyz",
 };
