@@ -23,6 +23,9 @@ export const TOKEN = {
   domain: "terapepe.xyz",
 };
 
+/** Show sample campaigns in Share quests while there are no real ones (design review). Set false before launch. */
+export const SHOW_SAMPLE_CAMPAIGNS = true;
+
 export const SOCIAL = {
   x: { handle: "", url: "https://x.com/" },
 };

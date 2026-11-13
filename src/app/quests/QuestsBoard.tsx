@@ -6,6 +6,7 @@ import { useChainId, usePublicClient, useSwitchChain, useWriteContract } from "w
 import { CAMPAIGNS_CONTRACT, campaignsAbi } from "@/lib/campaign";
 import { CAMPAIGN_NET, campaignChain } from "@/lib/chains";
 import { useOpenConnect } from "@/lib/connectModal";
+import { sampleCampaigns } from "@/lib/sampleCampaigns";
 import { useSession } from "@/lib/useSession";
 import { BuyButton, Countdown, PoolBar, ShareBox, StatusBadge, TokenLinks, refLink, tp, type PublicCampaign } from "@/components/quests";
 
@@ -164,8 +165,13 @@ export default function QuestsBoard() {
     const load = () =>
       fetch("/api/campaigns", { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : Promise.reject()))
-        .then((d) => !stop && setCampaigns(d.campaigns))
-        .catch(() => !stop && setError(true));
+        .then((d) => !stop && setCampaigns(d.campaigns?.length ? d.campaigns : sampleCampaigns()))
+        .catch(() => {
+          if (stop) return;
+          const sample = sampleCampaigns();
+          if (sample.length) setCampaigns(sample);
+          else setError(true);
+        });
     load();
     const t = setInterval(load, 30_000); // keep pools fresh
     return () => {

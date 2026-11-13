@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { sampleCampaign } from "@/lib/sampleCampaigns";
 import { useSession } from "@/lib/useSession";
 import {
   BuyButton, Countdown, PoolBar, ShareBox, StatusBadge, TokenLinks, refKey, refLink, storedRef, tp, track, type PublicCampaign,
@@ -44,7 +45,11 @@ export default function CampaignLanding({ id }: { id: number }) {
     fetch(`/api/campaigns/${id}`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d) => setC(d.campaign))
-      .catch(() => setMissing(true));
+      .catch(() => {
+        const sample = sampleCampaign(id);
+        if (sample) setC(sample);
+        else setMissing(true);
+      });
   }, [id]);
 
   // count the visit once the visitor is signed in
