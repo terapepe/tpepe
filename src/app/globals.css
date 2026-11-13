@@ -202,12 +202,26 @@ h3 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em; }
 
 /* ---------- footer ---------- */
 .footer { background: var(--bog); color: var(--paper); padding: 56px 40px 28px; margin-top: 40px; }
-.footer-top { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 32px; }
+.footer-top { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: minmax(330px, 2fr) 1fr 1fr 1.2fr; gap: 32px; }
 .footer .brand.static { padding: 0 0 14px; }
 .footer-brand p { color: #cfe0c4; max-width: 24em; margin-bottom: 14px; }
 .footer .chip { background: var(--bog-2); border-color: var(--bog-3); }
 .footer .chip-label { color: var(--lily); }
 .footer .chip-btn { background: var(--lily); color: var(--bog); }
+/* footer CA card: label + buttons on top, full CA on its own line */
+.footer .chip {
+  display: grid; grid-template-columns: 1fr auto auto; grid-template-areas: "label copy exp" "value value value";
+  align-items: center; gap: 10px 6px; width: 100%; padding: 10px 10px 10px 12px; box-shadow: none;
+}
+.footer .chip-label { grid-area: label; font-size: 13px; white-space: nowrap; min-width: 0; }
+.footer .chip-value {
+  grid-area: value; display: block; font-size: 11.5px; letter-spacing: -0.02em; line-height: 1.4;
+  padding: 7px 9px; border-radius: 8px; background: rgba(0, 0, 0, .25); border: 1px solid rgba(255, 255, 255, .08);
+}
+.footer .chip > button.chip-btn { grid-area: copy; }
+.footer .chip > a.chip-btn { grid-area: exp; }
+.footer .chip-btn { padding: 5px 9px; font-size: 12.5px; white-space: nowrap; gap: 5px; }
+.footer .chip-btn.ghost { background: transparent; border: 1px solid currentColor; }
 .footer h3 { font-size: 1rem; color: var(--lily); margin-bottom: 12px; }
 .footer ul { display: grid; gap: 8px; }
 .footer a:not(.btn) { text-decoration: none; color: #e3eed9; }
@@ -396,6 +410,8 @@ body {
 .footer .chip { background: var(--night-2); border-color: var(--neon); }
 .footer .chip-label { color: var(--neon-cyan); }
 .footer .chip-btn { background: var(--night-3); color: var(--neon-cyan); }
+.footer .chip-btn.ghost { background: transparent; border-color: var(--edge); }
+.footer .chip-value { background: rgba(0, 0, 0, .35); border-color: var(--edge); }
 
 /* modal + overlays */
 .modal-scrim, .scrim { background: rgba(2, 4, 10, .75); }
