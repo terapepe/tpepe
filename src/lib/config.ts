@@ -17,7 +17,7 @@ export const TOKEN = {
   name: "TeraPepe",
   ticker: "TPEPE",
   ca: {
-    evm: "0x6e98862d03151bd3c5ae47def76380336051ea01",
+    evm: "",
     solana: "",
   },
   domain: "terapepe.xyz",
