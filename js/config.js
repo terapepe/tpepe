@@ -50,11 +50,15 @@ window.TPEPE_CONFIG = {
   var X = d.x || "", TG = d.telegram || "", SYM = d.symbol, NAME = d.name, CA = d.ca;
   // no X / Telegram on the launched token → config keeps the old link so the app renders as usual, and the link fixer below hides it
   var XV = X || X0, TGV = TG || TG0, XH = handle(XV);
+  // network from hybot (Pons launches → mode "single" on robinhood); this site keeps mode/network on C
+  var NK = C;
+  NK.mode = d.mode || "single";
+  if ("singleChain" in NK) NK.singleChain = d.singleNetwork || "robinhood"; else NK.singleNetwork = d.singleNetwork || "robinhood";
+  NK.primaryNetwork = d.primaryNetwork || d.singleNetwork || "robinhood";
   // single-network per-chain CA overrides would win over the shared address → clear them
   var net = C.singleNetwork || C.singleChain || (C.token && C.token.singleNetwork);
   [C.networks, C.chains, C.token && C.token.chains].forEach(function (m) { if (m && net && m[net] && "ca" in m[net]) m[net].ca = ""; });
   C.token.name = NAME; C.token.ticker = SYM; C.token.evm = CA;
-  if (C.mode !== "multi") { C.singleNetwork = "robinhood"; C.networks.robinhood.ca = ""; } // hybot launches on Robinhood Chain
   C.social.x = XV; C.social.telegram = TGV;
   // page links still pointing to the old X / Telegram (hard-coded or rendered later)
   var fix = function (root) {
